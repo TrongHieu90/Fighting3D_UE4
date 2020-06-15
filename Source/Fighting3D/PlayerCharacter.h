@@ -13,5 +13,8 @@ UCLASS()
 class FIGHTING3D_API APlayerCharacter : public AArenaCharacter
 {
 	GENERATED_BODY()
-	
+public:
+	void BeginPlay() override;
+	void Tick(float DeltaTime) override;
+	void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 };
