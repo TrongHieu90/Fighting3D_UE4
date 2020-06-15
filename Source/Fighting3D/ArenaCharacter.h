@@ -23,6 +23,12 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+		bool bIsAttacking = false;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+		bool bIsAlive = true;
+	
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
