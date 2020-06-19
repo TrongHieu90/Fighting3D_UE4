@@ -1,6 +1,4 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "ArenaCharacter.h"
 
 // Sets default values
@@ -29,6 +27,5 @@ void AArenaCharacter::Tick(float DeltaTime)
 void AArenaCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 

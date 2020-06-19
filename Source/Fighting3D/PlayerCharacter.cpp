@@ -8,7 +8,7 @@ void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	//UE_LOG(LogTemp, Warning, TEXT("starting from player"));
-
+	//bUseControllerRotationYaw = false;
 }
 
 void APlayerCharacter::Tick(float DeltaTime)
@@ -41,13 +41,27 @@ void APlayerCharacter::MoveForward(float value)
 
 void APlayerCharacter::MoveRight(float value)
 {
+	if (!bIsAlive)
+		return;
+	if (!bIsAttacking)
+	{
+		FRotator CamRot = GetControlRotation();
+		CamRot.Pitch = 0.0f;
+		FVector MoveDir = CamRot.RotateVector(FVector::RightVector);
+
+		GetCharacterMovement()->AddInputVector(MoveDir * value);
+	}
 }
 
 void APlayerCharacter::Mouse_X(float value)
 {
+	auto Input = value * 100.0f * GetWorld()->GetDeltaSeconds();
+	AddControllerYawInput(Input);
 }
 
 void APlayerCharacter::Mouse_Y(float value)
 {
+	auto Input = value * 100.0f * GetWorld()->GetDeltaSeconds() * -1.0f;
+	AddControllerPitchInput(Input);
 }
 
