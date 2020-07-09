@@ -15,7 +15,9 @@ class FIGHTING3D_API APickableWeapon : public APickableBase
 {
 	GENERATED_BODY()
 public:
-    /*APickableWeapon();*/
+    
+	APickableWeapon();
+
 	UBoxComponent* GetDamageBox() const;
 
 protected:
