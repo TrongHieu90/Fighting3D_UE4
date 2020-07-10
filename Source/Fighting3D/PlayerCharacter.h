@@ -22,4 +22,13 @@ protected:
 
 	void Mouse_X(float value);
 	void Mouse_Y(float value);
+
+public:
+	UFUNCTION()
+	virtual void OnBeginOverlap(UPrimitiveComponent* OverlapComp, 
+								AActor* Other,
+								UPrimitiveComponent* otherComp,
+								int32 otherBodyIndex,
+								bool bFromSweep,
+								const FHitResult& SweepResult);
 };

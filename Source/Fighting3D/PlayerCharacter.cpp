@@ -2,6 +2,7 @@
 
 #include "Components/InputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include <Components/CapsuleComponent.h>
 #include "PlayerCharacter.h"
 
 void APlayerCharacter::BeginPlay()
@@ -9,6 +10,7 @@ void APlayerCharacter::BeginPlay()
 	Super::BeginPlay();
 	//UE_LOG(LogTemp, Warning, TEXT("starting from player"));
 	//bUseControllerRotationYaw = false;
+	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &APlayerCharacter::OnBeginOverlap);
 }
 
 void APlayerCharacter::Tick(float DeltaTime)
@@ -63,5 +65,17 @@ void APlayerCharacter::Mouse_Y(float value)
 {
 	auto Input = value * 100.0f * GetWorld()->GetDeltaSeconds() * -1.0f;
 	AddControllerPitchInput(Input);
+}
+
+void APlayerCharacter::OnBeginOverlap(UPrimitiveComponent* OverlapComp, AActor* Other, UPrimitiveComponent* otherComp, int32 otherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (Other->ActorHasTag("Shield"))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Collide with Shield"));
+	}
+	if (Other->ActorHasTag("Hammer"))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Collide with Hammer"));
+	}
 }
 
