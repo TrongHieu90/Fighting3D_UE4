@@ -6,6 +6,11 @@
 #include "GameFramework/Character.h"
 #include "ArenaCharacter.generated.h"
 
+
+class APickableBase;
+class APickableWeapon;
+class UBoxComponent;
+
 UCLASS()
 class FIGHTING3D_API AArenaCharacter : public ACharacter
 {
@@ -31,5 +36,15 @@ public:
 	
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	bool PickShield(APickableBase* pickedShield);
+	bool PickWeapon(APickableWeapon* pickedWeapon);
+
+	APickableBase* myShieldActor;
+	APickableWeapon* myWeaponActor;
+
+	UBoxComponent* weaponCollider;
+
+	void Attack();
 
 };

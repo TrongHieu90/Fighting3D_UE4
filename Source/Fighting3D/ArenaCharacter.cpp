@@ -1,5 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "ArenaCharacter.h"
+#include "PickableWeapon.h"
+#include "PickableBase.h"
+#include "Components/BoxComponent.h"
+
 
 // Sets default values
 AArenaCharacter::AArenaCharacter()
@@ -27,5 +31,44 @@ void AArenaCharacter::Tick(float DeltaTime)
 void AArenaCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+}
+
+bool AArenaCharacter::PickShield(APickableBase* pickedShield)
+{
+	if (!pickedShield)
+	{
+		return false
+	}
+
+	if (!myShieldActor)
+	{
+		if (pickedShield->AttachItemTo(GetMesh(), TEXT("DualWeaponPoint")))
+		{
+			myShieldActor = pickedShield;
+			return true;
+		}
+	}
+	return false;
+}
+
+bool AArenaCharacter::PickWeapon(APickableWeapon* pickedWeapon)
+{
+	if (!pickedWeapon)
+	{
+		return false
+	}
+
+	if (!myWeaponActor)
+	{
+		if (pickedWeapon->AttachItemTo(GetMesh(), TEXT("WeaponPoint")))
+		{
+			myWeaponActor = pickedWeapon;
+			weaponCollider = myWeaponActor->GetDamageBox();
+
+			weaponCollider->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			return true;
+		}
+	}
+	return false;
 }
 

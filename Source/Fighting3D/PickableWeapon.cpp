@@ -21,5 +21,5 @@ APickableWeapon::APickableWeapon()
 
 UBoxComponent* APickableWeapon::GetDamageBox() const
 {
-	return nullptr;
+	return damageBox;
 }
