@@ -37,7 +37,7 @@ bool AArenaCharacter::PickShield(APickableBase* pickedShield)
 {
 	if (!pickedShield)
 	{
-		return false
+		return false;
 	}
 
 	if (!myShieldActor)
@@ -55,7 +55,7 @@ bool AArenaCharacter::PickWeapon(APickableWeapon* pickedWeapon)
 {
 	if (!pickedWeapon)
 	{
-		return false
+		return false;
 	}
 
 	if (!myWeaponActor)
