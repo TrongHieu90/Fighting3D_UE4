@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "ArenaCharacter.h"
+#include "PickableWeapon.h"
+#include "PickableBase.h"
 #include "PlayerCharacter.generated.h"
 
 UCLASS()

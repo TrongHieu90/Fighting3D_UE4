@@ -71,11 +71,15 @@ void APlayerCharacter::OnBeginOverlap(UPrimitiveComponent* OverlapComp, AActor* 
 {
 	if (Other->ActorHasTag("Shield"))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Collide with Shield"));
+		//UE_LOG(LogTemp, Warning, TEXT("Collide with Shield"));
+		APickableBase* pickedShield = Cast<APickableBase>(Other);
+		PickShield(pickedShield);
 	}
 	if (Other->ActorHasTag("Hammer"))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Collide with Hammer"));
+		//UE_LOG(LogTemp, Warning, TEXT("Collide with Hammer"));
+		APickableWeapon* pickedWeapon = Cast<APickableWeapon>(Other);
+		PickWeapon(pickedWeapon);
 	}
 }
 
