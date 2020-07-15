@@ -33,4 +33,6 @@ public:
 								int32 otherBodyIndex,
 								bool bFromSweep,
 								const FHitResult& SweepResult);
+
+	void TriggerAttack();
 };

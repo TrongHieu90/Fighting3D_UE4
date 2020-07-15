@@ -72,3 +72,8 @@ bool AArenaCharacter::PickWeapon(APickableWeapon* pickedWeapon)
 	return false;
 }
 
+void AArenaCharacter::Attack()
+{
+	bIsAttacking = true;
+}
+

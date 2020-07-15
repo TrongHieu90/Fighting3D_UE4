@@ -25,6 +25,8 @@ void APlayerCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerIn
 	PlayerInputComponent->BindAxis("MoveRight", this, &APlayerCharacter::MoveRight);
 	PlayerInputComponent->BindAxis("Mouse_X", this, &APlayerCharacter::Mouse_X);
 	PlayerInputComponent->BindAxis("Mouse_Y", this, &APlayerCharacter::Mouse_Y);
+
+	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &APlayerCharacter::TriggerAttack);
 }
 
 void APlayerCharacter::MoveForward(float value)
@@ -80,6 +82,15 @@ void APlayerCharacter::OnBeginOverlap(UPrimitiveComponent* OverlapComp, AActor* 
 		//UE_LOG(LogTemp, Warning, TEXT("Collide with Hammer"));
 		APickableWeapon* pickedWeapon = Cast<APickableWeapon>(Other);
 		PickWeapon(pickedWeapon);
+	}
+}
+
+void APlayerCharacter::TriggerAttack()
+{
+	if (myWeaponActor && !bIsAttacking)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Call attack"));
+		Attack();
 	}
 }
 
