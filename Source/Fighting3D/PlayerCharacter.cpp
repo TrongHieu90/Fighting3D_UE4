@@ -10,6 +10,7 @@ void APlayerCharacter::BeginPlay()
 	Super::BeginPlay();
 	//UE_LOG(LogTemp, Warning, TEXT("starting from player"));
 	//bUseControllerRotationYaw = false;
+	bCanAttack = true;
 	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &APlayerCharacter::OnBeginOverlap);
 }
 
@@ -87,9 +88,10 @@ void APlayerCharacter::OnBeginOverlap(UPrimitiveComponent* OverlapComp, AActor* 
 
 void APlayerCharacter::TriggerAttack()
 {
-	if (myWeaponActor && !bIsAttacking)
+	if (myWeaponActor && bCanAttack)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Call attack"));
+		//UE_LOG(LogTemp, Warning, TEXT("Call attack"));
+		bCanAttack = false;
 		Attack();
 	}
 }

@@ -35,4 +35,7 @@ public:
 								const FHitResult& SweepResult);
 
 	void TriggerAttack();
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+	bool bCanAttack;
 };
