@@ -36,3 +36,8 @@ void AAICharacter::CreateAndAttachWeapon()
 	}
 }
 
+void AAICharacter::TriggerAttack()
+{
+	Attack();
+}
+

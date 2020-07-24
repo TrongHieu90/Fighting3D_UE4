@@ -28,4 +28,7 @@ public:
 		TSubclassOf<APickableWeapon> Weapon;
 
 	void CreateAndAttachWeapon();
+
+	UFUNCTION(BlueprintCallable)
+	void TriggerAttack();
 };
