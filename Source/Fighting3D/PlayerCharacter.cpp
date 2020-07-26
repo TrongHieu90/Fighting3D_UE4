@@ -2,7 +2,8 @@
 
 #include "Components/InputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include <Components/CapsuleComponent.h>
+#include "Components/CapsuleComponent.h"
+#include "Components/Boxcomponent.h"
 #include "PlayerCharacter.h"
 
 void APlayerCharacter::BeginPlay()
@@ -17,6 +18,20 @@ void APlayerCharacter::BeginPlay()
 void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	if (bIsAttacking)
+	{
+		if (weaponCollider != nullptr)
+		{
+			weaponCollider->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+		}
+	}
+	else
+	{
+		if (weaponCollider != nullptr)
+		{
+			weaponCollider->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		}
+	}
 }
 
 void APlayerCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
@@ -86,12 +101,29 @@ void APlayerCharacter::OnBeginOverlap(UPrimitiveComponent* OverlapComp, AActor* 
 	}
 }
 
+void APlayerCharacter::OnWeaponOverlap(UPrimitiveComponent* OverlapComp, AActor* Other, UPrimitiveComponent* otherComp, int32 otherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (Other->ActorHasTag("Enemy"))
+	{
+		if (canDetectCollision)
+			canDetectCollision = false;
+		UE_LOG(LogTemp, Warning, TEXT("Player Collides with Enemy"));
+	}
+}
+
 void APlayerCharacter::TriggerAttack()
 {
 	if (myWeaponActor && bCanAttack)
 	{
 		//UE_LOG(LogTemp, Warning, TEXT("Call attack"));
 		bCanAttack = false;
+
+		if (!AddedOverlapToWeapon)
+		{
+			AddedOverlapToWeapon = true;
+			weaponCollider-> OnComponentBeginOverlap.AddDynamic(this, &APlayerCharacter::OnWeaponOverlap);
+		}
+		canDetectCollision = true;
 		Attack();
 	}
 }

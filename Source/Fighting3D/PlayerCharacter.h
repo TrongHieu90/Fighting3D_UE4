@@ -34,8 +34,19 @@ public:
 								bool bFromSweep,
 								const FHitResult& SweepResult);
 
+	UFUNCTION()
+		virtual void OnWeaponOverlap(UPrimitiveComponent* OverlapComp,
+			AActor* Other,
+			UPrimitiveComponent* otherComp,
+			int32 otherBodyIndex,
+			bool bFromSweep,
+			const FHitResult& SweepResult);
+
 	void TriggerAttack();
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 	bool bCanAttack;
+
+	bool AddedOverlapToWeapon;
+	bool canDetectCollision;
 };
