@@ -31,4 +31,15 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void TriggerAttack();
+
+	UFUNCTION()
+		virtual void OnWeaponOverlap(UPrimitiveComponent* OverlapComp,
+			AActor* Other,
+			UPrimitiveComponent* otherComp,
+			int32 otherBodyIndex,
+			bool bFromSweep,
+			const FHitResult& SweepResult);
+
+	bool canDetectCollision;
+	bool disableAttack;
 };

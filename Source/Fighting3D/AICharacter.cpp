@@ -7,6 +7,7 @@
 #include "Engine/World.h"
 #include "AIController.h"
 #include "BrainComponent.h"
+#include "Components/BoxComponent.h"
 
 void AAICharacter::BeginPlay()
 {
@@ -17,6 +18,24 @@ void AAICharacter::BeginPlay()
 void AAICharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (bIsAttacking)
+	{
+		if (weaponCollider != nullptr)
+		{
+			weaponCollider->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+		}
+	}
+	else
+	{
+		if (weaponCollider != nullptr)
+		{
+			weaponCollider->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+			if (!canDetectCollision)
+				canDetectCollision = true;
+		}
+	}
 }
 
 void AAICharacter::CreateAndAttachWeapon()
@@ -33,11 +52,28 @@ void AAICharacter::CreateAndAttachWeapon()
 	{
 		APickableWeapon* newWeapon = Cast<APickableWeapon>(GetWorld()->SpawnActor(Weapon, &location, &rotation));
 		newWeapon->AttachItemTo(GetMesh(), TEXT("WeaponPoint"));
+
+		weaponCollider = newWeapon->GetDamageBox();
+		if (weaponCollider != nullptr)
+		{
+			weaponCollider->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			weaponCollider->OnComponentBeginOverlap.AddDynamic(this, &AAICharacter::OnWeaponOverlap);
+		}
+		
 	}
 }
 
 void AAICharacter::TriggerAttack()
 {
 	Attack();
+}
+
+void AAICharacter::OnWeaponOverlap(UPrimitiveComponent* OverlapComp, AActor* Other, UPrimitiveComponent* otherComp, int32 otherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (Other->ActorHasTag("Player") && canDetectCollision)
+	{
+		canDetectCollision = false;
+		UE_LOG(LogTemp, Warning, TEXT("collide with player"));
+	}
 }
 
