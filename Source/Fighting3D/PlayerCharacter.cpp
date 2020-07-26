@@ -128,3 +128,12 @@ void APlayerCharacter::TriggerAttack()
 	}
 }
 
+bool APlayerCharacter::ApplyDamage()
+{
+	return false;
+}
+
+void APlayerCharacter::RestartGameState()
+{
+}
+

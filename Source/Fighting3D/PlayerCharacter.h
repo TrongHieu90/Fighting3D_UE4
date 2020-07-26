@@ -26,6 +26,16 @@ protected:
 	void Mouse_Y(float value);
 
 public:
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+		bool bCanAttack;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+		float Health = 100.0f;
+
+	
+	bool AddedOverlapToWeapon;
+	bool canDetectCollision;
+
 	UFUNCTION()
 	virtual void OnBeginOverlap(UPrimitiveComponent* OverlapComp, 
 								AActor* Other,
@@ -44,9 +54,7 @@ public:
 
 	void TriggerAttack();
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
-	bool bCanAttack;
-
-	bool AddedOverlapToWeapon;
-	bool canDetectCollision;
+	
+	bool ApplyDamage();
+	void RestartGameState();
 };

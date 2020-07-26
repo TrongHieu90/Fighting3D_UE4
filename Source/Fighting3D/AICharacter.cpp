@@ -77,3 +77,8 @@ void AAICharacter::OnWeaponOverlap(UPrimitiveComponent* OverlapComp, AActor* Oth
 	}
 }
 
+bool AAICharacter::ApplyDamage()
+{
+	return false;
+}
+

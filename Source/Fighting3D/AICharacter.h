@@ -42,4 +42,9 @@ public:
 
 	bool canDetectCollision;
 	bool disableAttack;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
+		float Health = 100.0f;
+
+	bool ApplyDamage();
 };
