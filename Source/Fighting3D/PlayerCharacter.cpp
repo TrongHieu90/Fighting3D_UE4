@@ -4,6 +4,9 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/Boxcomponent.h"
+#include "AICharacter.h"
+#include "Kismet/GameplayStatics.h"
+#include "TimerManager.h"
 #include "PlayerCharacter.h"
 
 void APlayerCharacter::BeginPlay()
@@ -108,11 +111,20 @@ void APlayerCharacter::OnWeaponOverlap(UPrimitiveComponent* OverlapComp, AActor*
 		if (canDetectCollision)
 			canDetectCollision = false;
 		UE_LOG(LogTemp, Warning, TEXT("Player Collides with Enemy"));
+		AAICharacter* aiChar = Cast<AAICharacter>(Other);
+		bool enemyDead = aiChar->ApplyDamage();
+
+		if (enemyDead)
+		{
+			FTimerHandle unusedHandle;
+			GetWorldTimerManager().SetTimer(unusedHandle, this, &APlayerCharacter::RestartGameState, 3.0f, false);
+		}
 	}
 }
 
 void APlayerCharacter::TriggerAttack()
 {
+	if (!bIsAlive) return;
 	if (myWeaponActor && bCanAttack)
 	{
 		//UE_LOG(LogTemp, Warning, TEXT("Call attack"));
@@ -130,10 +142,18 @@ void APlayerCharacter::TriggerAttack()
 
 bool APlayerCharacter::ApplyDamage()
 {
+	Health -= 10.0f;
+
+	if (Health <= 0)
+	{
+		bIsAlive = false;
+		return true;
+	}
 	return false;
 }
 
 void APlayerCharacter::RestartGameState()
 {
+	UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
 }
 

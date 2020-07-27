@@ -7,6 +7,7 @@
 #include "Engine/World.h"
 #include "AIController.h"
 #include "BrainComponent.h"
+#include "PlayerCharacter.h"
 #include "Components/BoxComponent.h"
 
 void AAICharacter::BeginPlay()
@@ -65,6 +66,7 @@ void AAICharacter::CreateAndAttachWeapon()
 
 void AAICharacter::TriggerAttack()
 {
+	if (disableAttack) return;
 	Attack();
 }
 
@@ -74,11 +76,26 @@ void AAICharacter::OnWeaponOverlap(UPrimitiveComponent* OverlapComp, AActor* Oth
 	{
 		canDetectCollision = false;
 		UE_LOG(LogTemp, Warning, TEXT("collide with player"));
+
+		APlayerCharacter* playerChar = Cast<APlayerCharacter>(Other);
+		bool playerDead = playerChar->ApplyDamage();
+
+		disableAttack = playerDead;
 	}
 }
 
 bool AAICharacter::ApplyDamage()
 {
+	Health -= 10.0f;
+
+	if (Health <= 0)
+	{
+		bIsAlive = false;
+		AAIController* aiController = Cast<AAIController>(GetController());
+		aiController->UnPossess();
+
+		return true;
+	}
 	return false;
 }
 
