@@ -18,11 +18,6 @@ void APlayerCharacter::BeginPlay()
 	//bUseControllerRotationYaw = false;
 	bCanAttack = true;
 	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &APlayerCharacter::OnBeginOverlap);
-
-	if (playerSound)
-	{
-		playerSound->SetSound(footstepSCue);
-	}
 }
 
 void APlayerCharacter::Tick(float DeltaTime)
@@ -119,12 +114,16 @@ void APlayerCharacter::OnWeaponOverlap(UPrimitiveComponent* OverlapComp, AActor*
 			canDetectCollision = false;
 		UE_LOG(LogTemp, Warning, TEXT("Player Collides with Enemy"));
 		AAICharacter* aiChar = Cast<AAICharacter>(Other);
-		bool enemyDead = aiChar->ApplyDamage();
-
-		if (enemyDead)
+		if (aiChar != nullptr)
 		{
-			FTimerHandle unusedHandle;
-			GetWorldTimerManager().SetTimer(unusedHandle, this, &APlayerCharacter::RestartGameState, 3.0f, false);
+			bool enemyDead = aiChar->ApplyDamage();
+			PlaySound(onHitSCue);
+
+			if (enemyDead)
+			{
+				FTimerHandle unusedHandle;
+				GetWorldTimerManager().SetTimer(unusedHandle, this, &APlayerCharacter::RestartGameState, 3.0f, false);
+			}
 		}
 	}
 }
@@ -147,11 +146,11 @@ void APlayerCharacter::TriggerAttack()
 	}
 }
 
-void APlayerCharacter::PlaySound()
+void APlayerCharacter::PlaySound(USoundCue* soundCue)
 {
 	if (playerSound)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("playing sound"));
+		playerSound->SetSound(soundCue);
 		playerSound->Play();
 	}
 }

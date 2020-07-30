@@ -36,6 +36,8 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Audio")
 		USoundCue* footstepSCue;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Audio")
+		USoundCue* onHitSCue;
 	
 	bool AddedOverlapToWeapon;
 	bool canDetectCollision;
@@ -57,7 +59,7 @@ public:
 			const FHitResult& SweepResult);
 
 	UFUNCTION(BlueprintCallable)
-		void PlaySound();
+		void PlaySound(USoundCue* soundCue);
 
 	void TriggerAttack();
 	bool ApplyDamage();
