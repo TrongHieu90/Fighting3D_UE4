@@ -78,9 +78,11 @@ void AAICharacter::OnWeaponOverlap(UPrimitiveComponent* OverlapComp, AActor* Oth
 		UE_LOG(LogTemp, Warning, TEXT("collide with player"));
 
 		APlayerCharacter* playerChar = Cast<APlayerCharacter>(Other);
-		bool playerDead = playerChar->ApplyDamage();
-
-		disableAttack = playerDead;
+		if (playerChar != nullptr)
+		{
+			bool playerDead = playerChar->ApplyDamage();
+			disableAttack = playerDead;
+		}
 	}
 }
 
@@ -92,8 +94,10 @@ bool AAICharacter::ApplyDamage()
 	{
 		bIsAlive = false;
 		AAIController* aiController = Cast<AAIController>(GetController());
-		aiController->UnPossess();
-
+		if (aiController != nullptr)
+		{
+			aiController->UnPossess();
+		}
 		return true;
 	}
 	return false;

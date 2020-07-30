@@ -2,6 +2,7 @@
 #include "ArenaCharacter.h"
 #include "PickableWeapon.h"
 #include "PickableBase.h"
+#include "Components/AudioComponent.h"
 #include "Components/BoxComponent.h"
 
 
@@ -10,7 +11,11 @@ AArenaCharacter::AArenaCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	playerSound = CreateDefaultSubobject<UAudioComponent>(TEXT("AudioComponent"));
+	if (playerSound)
+	{
+		playerSound->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	}
 }
 
 // Called when the game starts or when spawned

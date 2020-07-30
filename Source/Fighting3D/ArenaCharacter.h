@@ -10,6 +10,7 @@
 class APickableBase;
 class APickableWeapon;
 class UBoxComponent;
+class UAudioComponent;
 
 UCLASS()
 class FIGHTING3D_API AArenaCharacter : public ACharacter
@@ -33,6 +34,9 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 		bool bIsAlive = true;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Audio")
+		UAudioComponent* playerSound;
 	
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

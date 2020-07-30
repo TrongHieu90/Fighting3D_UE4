@@ -8,6 +8,8 @@
 #include "PickableBase.h"
 #include "PlayerCharacter.generated.h"
 
+class USoundCue;
+
 UCLASS()
 class FIGHTING3D_API APlayerCharacter : public AArenaCharacter
 {
@@ -32,6 +34,8 @@ public:
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere)
 		float Health = 100.0f;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Audio")
+		USoundCue* footstepSCue;
 	
 	bool AddedOverlapToWeapon;
 	bool canDetectCollision;
@@ -52,9 +56,10 @@ public:
 			bool bFromSweep,
 			const FHitResult& SweepResult);
 
-	void TriggerAttack();
+	UFUNCTION(BlueprintCallable)
+		void PlaySound();
 
-	
+	void TriggerAttack();
 	bool ApplyDamage();
 	void RestartGameState();
 };

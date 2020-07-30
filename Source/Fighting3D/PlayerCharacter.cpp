@@ -4,6 +4,8 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/Boxcomponent.h"
+#include "Sound/SoundCue.h"
+#include "Components/AudioComponent.h"
 #include "AICharacter.h"
 #include "Kismet/GameplayStatics.h"
 #include "TimerManager.h"
@@ -16,6 +18,11 @@ void APlayerCharacter::BeginPlay()
 	//bUseControllerRotationYaw = false;
 	bCanAttack = true;
 	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &APlayerCharacter::OnBeginOverlap);
+
+	if (playerSound)
+	{
+		playerSound->SetSound(footstepSCue);
+	}
 }
 
 void APlayerCharacter::Tick(float DeltaTime)
@@ -137,6 +144,15 @@ void APlayerCharacter::TriggerAttack()
 		}
 		canDetectCollision = true;
 		Attack();
+	}
+}
+
+void APlayerCharacter::PlaySound()
+{
+	if (playerSound)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("playing sound"));
+		playerSound->Play();
 	}
 }
 
